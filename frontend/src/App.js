@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 
 const VirtualMakeupApp = () => {
+  const BACKEND_URL = "http://localhost:8000";
+  // const BACKEND_URL = "https://nykaa-fv8a.onrender.com/";
   // Local and offscreen refs
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -62,7 +64,7 @@ const VirtualMakeupApp = () => {
   // Fetch unique shades from backend.
   useEffect(() => {
     if (!isCameraOn) return;
-    fetch("http://localhost:8000/unique_shades")
+    fetch(BACKEND_URL + "/unique_shades")
       .then((res) => res.json())
       .then((data) => {
         console.log("Unique shades received:", data);
@@ -138,7 +140,7 @@ const VirtualMakeupApp = () => {
         })
       )
       .then(() =>
-        fetch("http://localhost:8000/offer", {
+        fetch(BACKEND_URL + "/offer", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -155,7 +157,7 @@ const VirtualMakeupApp = () => {
 
   // New function to fetch product recommendations.
   const fetchProductRecommendations = () => {
-    fetch("http://localhost:8000/products", {
+    fetch(BACKEND_URL + "/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ selectedMakeup })
@@ -258,7 +260,7 @@ const VirtualMakeupApp = () => {
           if (blob) {
             const formData = new FormData();
             formData.append("file", blob, "capture.png");
-            fetch("http://localhost:8000/beautify", {
+            fetch(BACKEND_URL + "/beautify", {
               method: "POST",
               body: formData,
             })
